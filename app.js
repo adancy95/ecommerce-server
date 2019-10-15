@@ -64,7 +64,7 @@ require("./configs/passport/passport.setup")(app);
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Ecommerce-Server';
 
 
 
