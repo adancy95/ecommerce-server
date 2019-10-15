@@ -8,11 +8,15 @@ const bcrypt = require("bcryptjs");
 
 const passport = require("passport");
 
-authRouter.post("/api/signup", (req, res, next) => {
-  console.log("frontend form data: ", req.body);
-  const { fullName, email, password } = req.body;
+const jwt = require("jsonwebtoken");
 
-  if(fullName == "" || email == "" || password.match(/[0-9]/) === null){
+const expressJwt = require("express-jwt");
+
+
+authRouter.post("/api/signup", (req, res, next) => {
+  const { firstName, lastName, email, password } = req.body;
+
+  if(firstName == "" || lastName == "" || email == "" || password.match(/[0-9]/) === null){
     // send JSON file to the frontend if any of these fields are empty or password doesn't contain a number
     res.status(401).json({ message: "All fields need to be filled and password must contain a number! 🤨" });
     return;
@@ -31,7 +35,7 @@ authRouter.post("/api/signup", (req, res, next) => {
       const encryptedPassword = bcrypt.hashSync(password, salt);
 
       User
-        .create({ fullName, email, encryptedPassword })
+        .create({ firstName, lastName, email, encryptedPassword })
         .then( userDoc => { 
           // if all good, log in the user automatically
           // "req.login()" is a Passport method that calls "serializeUser()"
@@ -65,15 +69,18 @@ authRouter.post("/api/login", (req, res, next)  => {
         res.status(500).json({message: "Something went wrong with getting user object from DB"})
         return;
       }
+      const Auth = jwt.sign({ _id: userDoc._id }, process.env.JWT_SECRET)
+      res.cookie("Auth", Auth, {expire: new Date() + 9999})
       // set password to undefined so it doesn't get revealed in the client side (browser ==> react app)
       userDoc.encryptedPassword = undefined;
       // send json object with user information to the client
-      res.status(200).json({ userDoc });
+      res.status(200).json({ userDoc, Auth });
     } )
   })(req, res, next);
 })
 
 authRouter.delete("/api/logout", (req, res, next) => {
+  res.clearCookie("Auth")
   // "req.logout()" is a Passport method that removes the user ID from session
   req.logout();
   // send empty "userDoc" when you log out
