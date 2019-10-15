@@ -4,16 +4,32 @@ const Schema = mongoose.Schema;
 
 
 const userSchema =  new Schema({
-  fullName: {
+  firstName: {
     type: String,
     required: true,
-    minlength: 2
+    minlength: 2,
+    maxlength: 32
+  },
+  lastName: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 32
   },
   email: {
     type: String,
     required: true,
     unique: true,
     match: /^.+@.+\..+$/
+  },
+  role: {
+    type: Number,
+    default: 0,
+  },
+  history: {
+    type: Array,
+    default: []
+
   },
   encryptedPassword: {
     type: String,
