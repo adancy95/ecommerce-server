@@ -3,7 +3,7 @@ const categoryRouter = express.Router();
 const Category = require("../models/Category")
 
 
-categoryRouter.post("/api/category/create", (req, res, next) => {
+categoryRouter.post("/api/categories/create", (req, res, next) => {
   if(name = ""){
     // send JSON file to the frontend if any of these fields are empty or password doesn't contain a number
     res.status(401).json({ message: "Category name is required" });
@@ -13,7 +13,7 @@ categoryRouter.post("/api/category/create", (req, res, next) => {
   Category.findOne({ name: req.body.name })
     .then(foundCategory => {
       if (foundCategory !== null) {
-        res.status(401).json({ message: `A category with the name ${req.body.name} already exist` });
+        res.status(400).json({ message: `A category with the name ${req.body.name} already exist` });
         return;
       }
       Category.create({ name: req.body.name })
@@ -27,12 +27,50 @@ categoryRouter.post("/api/category/create", (req, res, next) => {
   
 })
 
-// categoryRouter.get("/api/category/all", (req, res, next) => {
+categoryRouter.get("/api/categories", (req, res, next) => {
+  Category.find()
+    .then(categories => {
+      if (categories === null) {
+        res.status(400).json({ message: `No categories exist. Add a category.` });
+        return
+      }
+      res.status(200).json({categories})
+    })
+    .catch(err => next(err))
+})
 
-// })
-
-// categoryRouter.get("/api/category/:id", (req, res, next) => {
+categoryRouter.get("/api/categories/:id", (req, res, next) => {
+  Category.findById(req.params.id)
+  .then(foundCategory=> {
+    if (foundCategory === null) {
+      res.status(400).json({ message: `Category does not exist` });
+      return
+    }
+    res.status(200).json({foundCategory})
+  })
+  .catch(err => next(err))
   
-// })
+})
+
+categoryRouter.put('/api/categories/update/:id', (req, res, next) => {
+  Category.findByIdAndUpdate(req.params.id, { name: req.body.name })
+    .then(updatedCategory => {
+      if (updatedCategory === null) {
+        res.status(400).json({ message: `Category does not exist` });
+        return
+      }
+      res.status(200).json([{ message: "The category name was updated" }, updatedCategory ])
+    })
+    .catch(err => next(err))
+})
+
+categoryRouter.delete('/api/categories/delete/:id', (req, res, next) => {
+  Category.findByIdAndDelete(req.params.id)
+    .then(deletedCategory => {
+      res.status(200).json({message: "The category was successfuly deleted"})
+    })
+  .catch(err => next(err))
+  
+})
 
 module.exports = categoryRouter
