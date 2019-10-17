@@ -77,5 +77,8 @@ app.use("/", authRoutes);
 const categoryRoutes = require("./routes/category.routes");
 app.use("/", categoryRoutes)
 
+const productRoutes = require("./routes/product.routes");
+app.use("/", productRoutes)
+
 
 module.exports = app;
