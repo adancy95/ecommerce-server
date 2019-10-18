@@ -32,7 +32,8 @@ const productSchema = Schema({
   },
   availability: {
     instock: Boolean,
-    quantity: Number
+    quantity: Number,
+    sold: Number
   },
   color: String,
   size: String,
