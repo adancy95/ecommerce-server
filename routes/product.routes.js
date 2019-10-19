@@ -1,6 +1,7 @@
 const express = require("express")
 const productRouter = express.Router();
 const Product = require('../models/Product')
+const uploadMiddleWare = require('../configs/images/cloudinary');
 
 
 productRouter.post("/api/products/create", (req, res, next) => {
