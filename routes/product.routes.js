@@ -4,9 +4,16 @@ const Product = require('../models/Product')
 const uploadMiddleWare = require('../configs/images/cloudinary');
 
 
-productRouter.post("/api/products/create", (req, res, next) => {
+productRouter.post("/api/products/create", uploadMiddleWare.single('productImage'), (req, res, next) => {
+  
+  
+  let newProduct = req.body;
+  newProduct.productImage = '../public/images/placeholderShirt.jpg'
+  if(req.file){
+    newProduct.productImage = req.file.url
+  }
 
-  Product.create(req.body)
+  Product.create(newProduct)
     .then(product => {
       res.status(200).json({product})
     })
