@@ -5,12 +5,10 @@ const authRouter = express.Router();
 const User = require("../models/User");
 
 const bcrypt = require("bcryptjs");
-
 const passport = require("passport");
-
 const jwt = require("jsonwebtoken");
-
 const expressJwt = require("express-jwt");
+
 
 
 authRouter.post("/api/signup", (req, res, next) => {
