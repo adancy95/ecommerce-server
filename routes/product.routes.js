@@ -47,6 +47,19 @@ productRouter.get("/api/products/:id", (req, res, next) => {
   
 })
 
+productRouter.get("/api/product/categories", (req, res, next) => {
+  Product.find().distinct("category", {})
+    .then(foundCategories => {
+    if (foundCategories === null) {
+      res.status(400).json({ message: `Categories do not exist` });
+      return
+    }
+    res.status(200).json({foundCategories})
+  })
+  .catch(err => next(err))
+  
+})
+
 productRouter.put('/api/products/update/:id', (req, res, next) => {
   Product.findByIdAndUpdate(req.params.id,  req.body.name )
     .then(updatedProduct => {
