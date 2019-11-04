@@ -16,7 +16,7 @@ authRouter.post("/api/signup", (req, res, next) => {
 
   if(firstName == "" || lastName == "" || email == "" || password.match(/[0-9]/) === null){
     // send JSON file to the frontend if any of these fields are empty or password doesn't contain a number
-    res.status(401).json({ message: "All fields need to be filled and password must contain a number! 🤨" });
+    res.status(401).json({ message: "All fields need to be filled and password must contain a number! "});
     return;
   }
 
@@ -53,7 +53,7 @@ authRouter.post("/api/signup", (req, res, next) => {
     .catch(err => next(err)); // close User.findOne()
 });
 
-authRouter.post("/api/login", (req, res, next)  => {
+authRouter.post("/api/login", (req, res, next) => {
   passport.authenticate("local", (err, userDoc, failureDetails) => {
     if(err){
       res.status(500).json({ message: "Something went wrong with login." })
