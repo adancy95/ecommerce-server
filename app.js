@@ -46,7 +46,7 @@ app.use(cors({
   credentials: true,
   // this is the port where our react app is running
   // array of domains we accept the cookies from
-  origin: ["http://localhost:3000"]
+  origin: ["http://localhost:3000", "https://minacre8s.herokuapp.com"]
 }))
 
 
