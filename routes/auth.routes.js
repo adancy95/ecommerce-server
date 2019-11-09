@@ -54,7 +54,9 @@ authRouter.post("/api/signup", (req, res, next) => {
 });
 
 authRouter.post("/api/login", (req, res, next) => {
+  console.log("in login")
   passport.authenticate("local", (err, userDoc, failureDetails) => {
+    console.log("user: ", userDoc)
     if(err){
       res.status(500).json({ message: "Something went wrong with login." })
     }
@@ -62,18 +64,18 @@ authRouter.post("/api/login", (req, res, next) => {
       res.status(401).json(failureDetails);
     }
 
-    req.login(userDoc, (err) => {
-      if(err){
-        res.status(500).json({message: "Something went wrong with getting user object from DB"})
-        return;
-      }
+    // req.login(userDoc, (err) => {
+    //   if(err){
+    //     res.status(500).json({message: "Something went wrong with getting user object from DB"})
+    //     return;
+    //   }
       const Auth = jwt.sign({ _id: userDoc._id }, process.env.JWT_SECRET)
       res.cookie("Auth", Auth, {expire: new Date() + 9999})
       // set password to undefined so it doesn't get revealed in the client side (browser ==> react app)
       userDoc.encryptedPassword = undefined;
       // send json object with user information to the client
       res.status(200).json({ userDoc, Auth });
-    } )
+    // } )
   })(req, res, next);
 })
 
