@@ -57,8 +57,9 @@ authRouter.post("/api/login", (req, res, next) => {
   console.log("in login")
   passport.authenticate("local", (err, userDoc, failureDetails) => {
     console.log("user: ", userDoc)
-    if(err){
-      res.status(500).json({ message: "Something went wrong with login." })
+    if (err) {
+      console.log("whats: ", err)
+      res.status(500).json({ message: err })
     }
     if(!userDoc){
       res.status(401).json(failureDetails);
