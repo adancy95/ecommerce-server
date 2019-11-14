@@ -9,7 +9,14 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 
-
+authRouter.get("/api/users", (req, res, next) => {
+  User.find()
+    .then(foundUsers => {
+      res.status(200).json({ foundUsers });
+    }).catch(err => {
+      res.status(401).json({ message: "Error finding users" });
+  })
+})
 
 authRouter.post("/api/signup", (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
