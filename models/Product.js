@@ -16,27 +16,17 @@ const productSchema = Schema({
     ratingValue: Number,
     reviewCount: Number
   },
-  offers: {
-    priceCurrency: {
-      type: String,
-      default: 'USD'
-    },
-    sale: {
-      salePrice: Number,
-      priceValidUntil: Date
-    },
-    regularPrice: {
-      type: Number,
-      required: true
-    }
+  salePrice: Number,
+  salePriceValidUntil: Date,
+  regularPrice: {
+    type: Number,
+    required: true
   },
-  availability: {
-    instock: Boolean,
-    quantity: Number,
-    sold: Number
-  },
-  color: String,
-  size: String,
+  instock: Boolean,
+  quantity: Number,
+  sold: Number,
+  color: Array,
+  size: Array,
   category:{type: Schema.Types.ObjectId, ref: 'Category'}
 
 }, {
