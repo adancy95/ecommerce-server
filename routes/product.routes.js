@@ -2,12 +2,14 @@ const express = require("express")
 const productRouter = express.Router();
 const Product = require('../models/Product')
 const uploadMiddleWare = require('../configs/images/cloudinary');
+const moment = require('moment')
 
 
 productRouter.post("/api/products/create", uploadMiddleWare.single('productImage'), (req, res, next) => {
   
   
   let newProduct = req.body;
+  console.log(req.body)
   newProduct.productImage = '../public/images/placeholderShirt.jpg'
   if(req.file){
     newProduct.productImage = req.file.url
@@ -29,7 +31,8 @@ productRouter.get("/api/products", (req, res, next) => {
         res.status(400).json({ message: `No products exist. Add a product.` });
         return
       }
-      res.status(200).json({products})
+      let salePriceDate = moment(products.salePriceValidUntil).format('YYYY-MM-DD')
+      res.status(200).json({products, salePriceDate})
     })
     .catch(err => next(err))
 })
@@ -41,7 +44,8 @@ productRouter.get("/api/products/:id", (req, res, next) => {
       res.status(400).json({ message: `Product does not exist` });
       return
     }
-    res.status(200).json({foundProduct})
+    let salePriceDate = moment(foundProduct.salePriceValidUntil).format('YYYY-MM-DD')
+    res.status(200).json({foundProduct, salePriceDate})
   })
   .catch(err => next(err))
   
