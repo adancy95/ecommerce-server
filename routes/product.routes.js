@@ -7,19 +7,18 @@ const moment = require('moment')
 
 productRouter.post("/api/products/create", uploadMiddleWare.single('productImage'), (req, res, next) => {
   
-  console.log(req.file)
-  // let newProduct = req.body;
-  // console.log(req.body)
-  // newProduct.productImage = '../public/images/placeholderShirt.jpg'
-  // if(req.file){
-  //   newProduct.productImage = req.file.url
-  // }
+ 
+  let newProduct = req.body;
+  newProduct.productImage = '../public/images/placeholderShirt.jpg'
+  if(req.file){
+    newProduct.productImage = req.file.url
+  }
 
-  // Product.create(newProduct)
-  //   .then(product => {
-  //     res.status(200).json({product})
-  //   })
-  // .catch(err => next(err))
+  Product.create(newProduct)
+    .then(product => {
+      res.status(200).json({product})
+    })
+  .catch(err => next(err))
   
  
 })
