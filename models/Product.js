@@ -16,10 +16,10 @@ const productSchema = Schema({
     ratingValue: Number,
     reviewCount: Number
   },
-  salePrice: Number,
+  salePrice: String,
   salePriceValidUntil: Date,
   regularPrice: {
-    type: Number,
+    type: String,
     required: true
   },
   instock: Boolean,

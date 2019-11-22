@@ -50,6 +50,7 @@ productRouter.get("/api/products/:id", (req, res, next) => {
   
 })
 
+
 productRouter.get("/api/product/categories", (req, res, next) => {
   Product.find().distinct("category", {})
     .then(foundCategories => {

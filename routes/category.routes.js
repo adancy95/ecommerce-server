@@ -1,6 +1,7 @@
 const express = require("express");
 const categoryRouter = express.Router();
 const Category = require("../models/Category")
+const Product = require('../models/Product')
 
 
 categoryRouter.post("/api/categories/create", (req, res, next) => {
@@ -28,15 +29,28 @@ categoryRouter.post("/api/categories/create", (req, res, next) => {
 })
 
 categoryRouter.get("/api/categories", (req, res, next) => {
-  Category.find()
-    .then(categories => {
-      if (categories === null) {
-        res.status(400).json({ message: `No categories exist. Add a category.` });
-        return
-      }
-      res.status(200).json({categories})
-    })
-    .catch(err => next(err))
+  Category.aggregate([
+    {
+        $lookup:
+        {
+            from: 'products',
+            localField: "_id",
+            foreignField: "category",
+            as: 'products'
+        }
+    },
+    {
+        $project:
+        {
+            _id: 1,
+            name: 1,
+            number_of_products: { $size: "$products" }
+        }
+    }
+]).then(categories => {
+    res.status(200).json({categories})
+  })
+  .catch(err => next(err))
 })
 
 categoryRouter.get("/api/categories/:id", (req, res, next) => {
