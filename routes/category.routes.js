@@ -2,6 +2,7 @@ const express = require("express");
 const categoryRouter = express.Router();
 const Category = require("../models/Category")
 const Product = require('../models/Product')
+const User = require('../models/User')
 
 
 categoryRouter.post("/api/categories/create", (req, res, next) => {
@@ -83,6 +84,23 @@ categoryRouter.delete('/api/categories/delete/:id', (req, res, next) => {
     .then(deletedCategory => {
       res.status(200).json({message: "The category was successfuly deleted"})
     })
+  .catch(err => next(err))
+  
+})
+
+categoryRouter.get("/api/count", (req, res, next) => {
+  Category.count({})
+  .then(foundCategory=> {
+    Product.count({})
+      .then(foundProducts => {
+        User.count({})
+          .then(foundUsers => {
+            res.status(200).json({ foundCategory, foundProducts, foundUsers })
+          })
+        .catch(err => next(err))
+      })
+      .catch(err => next(err))
+  })
   .catch(err => next(err))
   
 })
