@@ -39,28 +39,14 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-// use CORS to allow access to this API from the frontend application
-// CORS -> Cross-Origin Resource Sharing
-var whitelist = ["http://localhost:3000", "http://minacre8s.herokuapp.com"]
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
 
-app.use(cors())
-app.options('*', cors()) 
-
-// app.use(cors({
-//   credentials: true,
-//   // this is the port where our react app is running
-//   // array of domains we accept the cookies from
-//   origin: ["http://localhost:3000", "http://minacre8s.herokuapp.com"]
-// }))
+app.use(cors({
+  credentials: true,
+  // this is the port where our react app is running
+  // array of domains we accept the cookies from
+  // origin: ["http://localhost:3000", "http://minacre8s.herokuapp.com"]
+  origin: "http://minacre8s.herokuapp.com"
+}))
 
 
 // SESSION:
