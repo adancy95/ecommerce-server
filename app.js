@@ -41,11 +41,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // use CORS to allow access to this API from the frontend application
 // CORS -> Cross-Origin Resource Sharing
-
-let origins = ["http://localhost:3000", "http://minacre8s.herokuapp.com"]
-let corsOptions = {
+var whitelist = ["http://localhost:3000", "http://minacre8s.herokuapp.com"]
+var corsOptions = {
   origin: function (origin, callback) {
-    if (origins.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
@@ -53,7 +52,9 @@ let corsOptions = {
   }
 }
 
-app.use(cors(corsOptions));
+app.use(cors())
+app.options('*', cors()) 
+
 // app.use(cors({
 //   credentials: true,
 //   // this is the port where our react app is running
@@ -77,12 +78,6 @@ require("./configs/passport/passport.setup")(app);
 
 // default value for title local
 app.locals.title = 'Ecommerce-Server';
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 const index = require('./routes/index');
 app.use('/', index);
