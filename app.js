@@ -66,7 +66,11 @@ require("./configs/passport/passport.setup")(app);
 // default value for title local
 app.locals.title = 'Ecommerce-Server';
 
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const index = require('./routes/index');
 app.use('/', index);
