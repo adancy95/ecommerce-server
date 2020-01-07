@@ -54,7 +54,7 @@ app.use(cors({
 // SESSION:
 app.use(session({
   secret: "my-amazing-secret-blah",
-  store: new MongoStore(options),
+  store: new MongoStore({ url: process.env.MONGODB_URI }),
   resave: true,
   saveUninitialized: true // don't save any sessions that doesn't have any data in them
 }));
