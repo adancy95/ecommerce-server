@@ -8,7 +8,8 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-const session      = require("express-session");
+const session = require("express-session");
+const MongoStore = require('connect-mongo')(session);
 const cors         = require("cors"); 
 
 // enables database connection
@@ -53,6 +54,7 @@ app.use(cors({
 // SESSION:
 app.use(session({
   secret: "my-amazing-secret-blah",
+  store: new MongoStore(options),
   resave: true,
   saveUninitialized: true // don't save any sessions that doesn't have any data in them
 }));
