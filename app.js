@@ -28,19 +28,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Express View engine setup
-
-// app.use(require('node-sass-middleware')({
-//   src:  path.join(__dirname, 'public'),
-//   dest: path.join(__dirname, 'public'),
-//   sourceMap: true
-// }));
-      
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 app.use(cors({
@@ -54,7 +45,7 @@ app.use(cors({
 // SESSION:
 app.use(session({
   secret: "my-amazing-secret-blah",
-  store: new MongoStore({ url: process.env.MONGODB_URI }),
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
   resave: true,
   saveUninitialized: true // don't save any sessions that doesn't have any data in them
 }));
