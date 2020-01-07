@@ -52,7 +52,8 @@ authRouter.post("/api/signup", (req, res, next) => {
           //     return;
           //   }
           //   userDoc.encryptedPassword = undefined;
-            res.status(200).json({ userDoc });  
+          res.status(200).json({ userDoc });  
+          console.log(`added user, ${userDoc}`)
           // })
          } )
         .catch( err => next(err) ); // close User.create()
