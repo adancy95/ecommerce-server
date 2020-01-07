@@ -46,14 +46,14 @@ authRouter.post("/api/signup", (req, res, next) => {
           // "req.login()" is a Passport method that calls "serializeUser()"
           // (that saves the USER ID in the session)
           
-          req.login(userDoc, (err) => {
-            if(err){
-              res.status(401).json({ message: "Something happened when logging in after the signup" });
-              return;
-            }
-            userDoc.encryptedPassword = undefined;
+          // req.login(userDoc, (err) => {
+          //   if(err){
+          //     res.status(401).json({ message: "Something happened when logging in after the signup" });
+          //     return;
+          //   }
+          //   userDoc.encryptedPassword = undefined;
             res.status(200).json({ userDoc });  
-          })
+          // })
          } )
         .catch( err => next(err) ); // close User.create()
     })
