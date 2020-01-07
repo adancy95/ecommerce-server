@@ -13,7 +13,6 @@ const cors         = require("cors");
 
 // enables database connection
 // require("./configs/database/db.setup");
-const mongoose = require("mongoose");
 
 mongoose
   .connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
