@@ -12,12 +12,9 @@ const session      = require("express-session");
 const cors         = require("cors"); 
 
 // enables database connection
-// require("./configs/database/db.setup");
+require("./configs/database/db.setup");
 
-mongoose
-  .connect(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
-  .then(x => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
-  .catch(err => console.error('Error connecting to mongo', err));
+
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
