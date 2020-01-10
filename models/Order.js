@@ -30,6 +30,9 @@ const orderSchema = Schema({
   designImage: String,
   designText: String,
   quantity: Number
+},
+  {
+  timestamps: true
 })
 
 const Order = mongoose.model("Order", orderSchema);
