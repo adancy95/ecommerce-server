@@ -29,3 +29,16 @@ orderRouter.get("/api/orders", (req, res, next) => {
     } )
     .catch(err => next(err))
 })
+
+orderRouter.get("/api/orders/:id", (req, res, next) => {
+  Order.findById(req.params.id)
+  .then(foundOrder=> {
+    if (foundOrder === null) {
+      res.status(400).json({ message: `order does not exist` });
+      return
+    }
+    res.status(200).json({foundOrder})
+  })
+  .catch(err => next(err))
+  
+})
