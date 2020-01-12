@@ -42,3 +42,15 @@ orderRouter.get("/api/orders/:id", (req, res, next) => {
   .catch(err => next(err))
   
 })
+
+orderRouter.put('/api/orders/update/:id', (req, res, next) => {
+  Order.findByIdAndUpdate(req.params.id,  req.body.name )
+    .then(updatedOrder => {
+      if (updatedOrder === null) {
+        res.status(400).json({ message: `order does not exist` });
+        return
+      }
+      res.status(200).json([{ message: "The order name was updated" }, updatedOrder ])
+    })
+    .catch(err => next(err))
+})
