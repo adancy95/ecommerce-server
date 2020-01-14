@@ -54,3 +54,14 @@ orderRouter.put('/api/orders/update/:id', (req, res, next) => {
     })
     .catch(err => next(err))
 })
+
+orderRouter.delete('/api/orders/delete/:id', (req, res, next) => {
+  Order.findByIdAndDelete(req.params.id)
+    .then(deletedOrder => {
+      res.status(200).json({message: "The order was successfuly deleted"})
+    })
+  .catch(err => next(err))
+  
+})
+
+module.exports = orderRouter
