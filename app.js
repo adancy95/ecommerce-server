@@ -71,6 +71,9 @@ app.use("/", categoryRoutes)
 const productRoutes = require("./routes/product.routes");
 app.use("/", productRoutes)
 
+const orderRoutes = require("./routes/order.routes")
+app.use("/", orderRoutes)
+
 app.use((req, res, next) => {
   // If no routes match, send them the React HTML.
   res.sendFile(__dirname + "/public/index.html");
